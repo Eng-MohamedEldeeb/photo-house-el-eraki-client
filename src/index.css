@@ -1,0 +1,46 @@
+@import url("https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;600;700&family=Cairo:wght@400;600;700&family=Montserrat:wght@300;400;500;600&display=swap");
+@import "tailwindcss";
+/* Design tokens — replaces tailwind.config.ts theme.extend */
+@theme {
+  /* Colors */
+  --color-black: #0a0a0a;
+  --color-dark: #111111;
+  --color-dark2: #1a1a1a;
+  --color-dark3: #222222;
+  --color-dark4: #2c2c2c;
+  --color-gold: #c9a84c;
+  --color-gold-l: #e8c96a;
+  --color-gold-d: #a07830;
+  --color-text: #f2ede0;
+  --color-text2: #b5ad98;
+  --color-text3: #6a6255;
+  --color-ivory: #fdfaf5;
+  --color-green: #7ab87a;
+  --color-amber: #d4a847;
+  --color-red: #e07272;
+  /* Fonts */
+  --font-display: "Playfair Display", Georgia, serif;
+  --font-arabic: "Cairo", sans-serif;
+  --font-ui: "Montserrat", sans-serif;
+}
+/* Base styles */
+@layer base {
+  * {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+  }
+  body {
+    @apply bg-black text-text2 font-ui;
+    -webkit-font-smoothing: antialiased;
+  }
+  ::-webkit-scrollbar {
+    width: 6px;
+  }
+  ::-webkit-scrollbar-track {
+    @apply bg-dark;
+  }
+  ::-webkit-scrollbar-thumb {
+    @apply bg-gold-d rounded-full;
+  }
+}
