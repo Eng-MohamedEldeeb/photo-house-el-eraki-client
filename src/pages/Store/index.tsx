@@ -1,34 +1,27 @@
-import { useEffect, useState } from "react";
+import { useQuery } from "@tanstack/react-query";
 import { useSearchParams } from "react-router-dom";
 import { productsApi } from "../../api/products.api";
-import type { Product } from "../../types/product.types";
 import ProductCard from "../../components/product/ProductCard";
 import Spinner from "../../components/ui/Spinner";
 
 export default function Store() {
   const [searchParams] = useSearchParams();
-  const [products, setProducts] = useState<Product[]>([]);
-  const [loading, setLoading] = useState(true);
-  const [total, setTotal] = useState(0);
 
-  useEffect(() => {
-    setLoading(true);
-    const query = {
-      categoryId: searchParams.get("categoryId")
-        ? Number(searchParams.get("categoryId"))
-        : undefined,
-      page: Number(searchParams.get("page") || 1),
-      limit: 12,
-    };
-    productsApi
-      .getAll(query)
-      .then((res) => {
-        setProducts(res.data);
-        setTotal(res.meta.total);
-      })
-      .catch(console.error)
-      .finally(() => setLoading(false));
-  }, [searchParams]);
+  const query = {
+    categoryId: searchParams.get("categoryId")
+      ? Number(searchParams.get("categoryId"))
+      : undefined,
+    page: Number(searchParams.get("page") || 1),
+    limit: 12,
+  };
+
+  const { data, isLoading } = useQuery({
+    queryKey: ["products", query],
+    queryFn: () => productsApi.getAll(query),
+  });
+
+  const products = data?.data || [];
+  const total = data?.meta.total || 0;
 
   return (
     <div className="min-h-screen bg-black py-12">
@@ -39,7 +32,7 @@ export default function Store() {
             {total} products available
           </p>
         </div>
-        {loading ? (
+        {isLoading ? (
           <Spinner />
         ) : (
           <div
@@ -51,7 +44,7 @@ export default function Store() {
             ))}
           </div>
         )}
-        {products.length === 0 && !loading && (
+        {products.length === 0 && !isLoading && (
           <p className="text-center text-text3 py-20 font-ui text-lg">
             No products found
           </p>
