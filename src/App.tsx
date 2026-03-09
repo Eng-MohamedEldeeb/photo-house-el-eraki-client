@@ -1,35 +1,59 @@
-import { useState } from 'react'
-import reactLogo from './assets/react.svg'
-import viteLogo from '/vite.svg'
-import './App.css'
+import {
+  BrowserRouter,
+  Routes,
+  Route,
+  Navigate,
+  Outlet,
+} from "react-router-dom";
+import { Suspense, lazy } from "react";
+import Navbar from "./components/layout/Navbar";
+import Footer from "./components/layout/Footer";
+import Spinner from "./components/ui/Spinner";
+// Lazy load pages for better performance
+const Landing = lazy(() => import("./pages/Landing"));
+const Store = lazy(() => import("./pages/Store"));
+const ProductDetail = lazy(() => import("./pages/ProductDetail"));
+const AdminLogin = lazy(() => import("./pages/Admin/Login"));
+const Dashboard = lazy(() => import("./pages/Admin/Dashboard"));
+const AdminProducts = lazy(() => import("./pages/Admin/Products"));
+const AdminCategories = lazy(() => import("./pages/Admin/Categories"));
 
-function App() {
-  const [count, setCount] = useState(0)
-
+// Phase 2: ProtectedRoute will be imported here
+export default function App() {
   return (
-    <>
-      <div>
-        <a href="https://vite.dev" target="_blank">
-          <img src={viteLogo} className="logo" alt="Vite logo" />
-        </a>
-        <a href="https://react.dev" target="_blank">
-          <img src={reactLogo} className="logo react" alt="React logo" />
-        </a>
-      </div>
-      <h1>Vite + React</h1>
-      <div className="card">
-        <button onClick={() => setCount((count) => count + 1)}>
-          count is {count}
-        </button>
-        <p>
-          Edit <code>src/App.tsx</code> and save to test HMR
-        </p>
-      </div>
-      <p className="read-the-docs">
-        Click on the Vite and React logos to learn more
-      </p>
-    </>
-  )
+    <BrowserRouter>
+      <Suspense fallback={<Spinner fullScreen />}>
+        <Routes>
+          {/* Public routes — with Navbar + Footer */}
+          <Route element={<PublicLayout />}>
+            <Route path="/" element={<Landing />} />
+            <Route path="/store" element={<Store />} />
+            <Route path="/products/:id" element={<ProductDetail />} />
+          </Route>
+          {/* Admin routes — no Navbar/Footer */}
+          <Route path="/admin/login" element={<AdminLogin />} />
+          <Route path="/admin" element={<Dashboard />} />
+          <Route path="/admin/products" element={<AdminProducts />} />
+          <Route path="/admin/products/new" element={<AdminProducts />} />
+          <Route path="/admin/products/:id/edit" element={<AdminProducts />} />
+          <Route path="/admin/categories" element={<AdminCategories />} />
+          Photo House El Eraki — Backend Phase 1: Core Setup Page 14
+          {/* Catch all */}
+          <Route path="*" element={<Navigate to="/" replace />} />
+        </Routes>
+      </Suspense>
+    </BrowserRouter>
+  );
 }
-
-export default App
+// Layout wrapper for public pages
+function PublicLayout() {
+  return (
+    <div className="min-h-screen flex flex-col bg-black">
+      <Navbar />
+      <main className="flex-1">
+        <Outlet />
+      </main>
+      <Footer />
+    </div>
+  );
+}

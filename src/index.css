@@ -22,6 +22,17 @@
   --font-display: "Playfair Display", Georgia, serif;
   --font-arabic: "Cairo", sans-serif;
   --font-ui: "Montserrat", sans-serif;
+
+  /* Animation */
+  --animate-scroll: scroll 30s linear infinite;
+  @keyframes scroll {
+    from {
+      transform: translateX(0);
+    }
+    to {
+      transform: translateX(-33.33%);
+    }
+  }
 }
 /* Base styles */
 @layer base {
