@@ -1,8 +1,26 @@
-import { Link, NavLink } from "react-router-dom";
+import { Link, NavLink, useNavigate } from "react-router-dom";
 import { useState } from "react";
+import { useAppSelector } from "../../hooks/useAppSelector";
+import { useAppDispatch } from "../../hooks/useAppDispatch";
+import { selectIsAuthenticated, logout } from "../../store/slices/authSlice";
 
 export default function Navbar() {
   const [open, setOpen] = useState(false);
+  const isAuth = useAppSelector(selectIsAuthenticated);
+  const dispatch = useAppDispatch();
+  const navigate = useNavigate();
+
+  const handleLogout = () => {
+    dispatch(logout());
+    navigate("/");
+  };
+
+  const links = [
+    ["/", "Home"],
+    ["/store", "Store"],
+    ...(isAuth ? [["/admin", "Admin"]] : []),
+  ];
+
   return (
     <nav
       className="sticky top-0 z-50 bg-dark/95 backdrop-blur
@@ -27,10 +45,7 @@ export default function Navbar() {
           </Link>
           {/* Desktop nav */}
           <div className="hidden md:flex items-center gap-8">
-            {[
-              ["/", "Home"],
-              ["/store", "Store"],
-            ].map(([to, label]) => (
+            {links.map(([to, label]) => (
               <NavLink
                 key={to}
                 to={to as string}
@@ -41,6 +56,15 @@ export default function Navbar() {
                 {label}
               </NavLink>
             ))}
+            {isAuth && (
+              <button
+                onClick={handleLogout}
+                className="font-ui text-xs text-text3 hover:text-red
+                  transition-colors border border-dark3 px-3 py-1.5 rounded"
+              >
+                Logout
+              </button>
+            )}
           </div>
           {/* Mobile menu button */}
           <button

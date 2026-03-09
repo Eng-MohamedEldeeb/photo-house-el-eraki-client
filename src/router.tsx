@@ -1,6 +1,7 @@
 import { createBrowserRouter, Navigate } from "react-router-dom";
 import { lazy } from "react";
 import { PublicLayout } from "./components/layout/PublicLayout";
+import { ProtectedRoute } from "./components/layout/ProtectedRoute";
 // Lazy load all pages
 const Landing = lazy(() => import("./pages/Landing"));
 const Store = lazy(() => import("./pages/Store"));
@@ -27,17 +28,20 @@ export const router = createBrowserRouter([
     path: "/admin/login",
     element: <AdminLogin />,
   },
+
   {
-    // Admin routes — no public layout (Phase 2: add ProtectedRoute here)
-    path: "/admin",
-    element: <Dashboard />,
+    // Protected admin routes — ProtectedRoute as parent element
+    element: <ProtectedRoute />,
+    children: [
+      { path: "/admin", element: <Dashboard /> },
+      { path: "/admin/products", element: <AdminProducts /> },
+      { path: "/admin/products/new", element: <AdminProducts /> },
+      { path: "/admin/products/:id/edit", element: <AdminProducts /> },
+      { path: "/admin/categories", element: <AdminCategories /> },
+    ],
   },
-  { path: "/admin/products", element: <AdminProducts /> },
-  { path: "/admin/products/new", element: <AdminProducts /> },
-  { path: "/admin/products/:id/edit", element: <AdminProducts /> },
-  { path: "/admin/categories", element: <AdminCategories /> },
+
   {
-    // Catch-all redirect
     path: "*",
     element: <Navigate to="/" replace />,
   },
