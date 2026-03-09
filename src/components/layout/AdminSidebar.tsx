@@ -9,7 +9,7 @@ const links = [
   { to: "/admin/categories", label: "Categories", labelAr: "Categories" },
 ];
 
-export default function AdminSidebar() {
+export default function AdminSidebar({ onClose }: { onClose: () => void }) {
   const dispatch = useAppDispatch();
   const navigate = useNavigate();
   const admin = useAppSelector(selectAdmin);
@@ -22,6 +22,17 @@ export default function AdminSidebar() {
       className="w-60 shrink-0 bg-dark border-r border-dark3
       flex flex-col h-screen sticky top-0"
     >
+      {/* Close button for mobile */}
+      {onClose && (
+        <button
+          onClick={onClose}
+          className="lg:hidden absolute top-4 right-4 text-text3
+            hover:text-gold text-lg"
+        >
+          X
+        </button>
+      )}
+
       {/* Logo */}
       <div className="px-6 py-5 border-b border-dark3">
         <p className="font-display text-gold text-base tracking-widest">

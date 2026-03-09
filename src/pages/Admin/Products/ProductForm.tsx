@@ -1,4 +1,4 @@
-import { useFormik } from "formik";
+import { useFormik, useFormikContext } from "formik";
 import * as Yup from "yup";
 import { useState, useRef } from "react";
 import Button from "../../../components/ui/Button";
@@ -13,10 +13,77 @@ const schema = Yup.object({
   categoryId: Yup.number().nullable(),
 });
 
+// typed form values to avoid `any` usage in Formik context
+interface FormValues {
+  nameEn: string;
+  nameAr: string;
+  descriptionEn: string;
+  descriptionAr: string;
+  price: number;
+  sku: string;
+  stockQuantity: number;
+  lowStockThreshold: number;
+  categoryId: string;
+  isFeatured: boolean;
+  isActive: boolean;
+}
+
 interface Props {
   product?: Product;
   onSubmit: (formData: FormData) => Promise<void>;
   loading?: boolean;
+}
+
+// -------------------------------------------------------
+// reusable form field component declared outside render
+// uses Formik context to access form state/actions
+// -------------------------------------------------------
+interface FieldProps {
+  name: keyof FormValues;
+  label: string;
+  labelAr: string;
+  type?: string;
+  as?: string;
+}
+
+function Field({ name, label, labelAr, type = "text", as }: FieldProps) {
+  const { values, handleChange, handleBlur, touched, errors } =
+    useFormikContext<FormValues>();
+
+  const value = values[name] as string | number | boolean;
+  const error = errors[name] as string | undefined;
+  const isTouched = touched[name] as boolean | undefined;
+
+  return (
+    <div>
+      <label className="font-ui text-xs text-text3 mb-1 block">
+        <span className="font-arabic">{labelAr}</span> | {label}
+      </label>
+      {as === "textarea" ? (
+        <textarea
+          name={name}
+          rows={3}
+          value={value as string}
+          onChange={handleChange}
+          onBlur={handleBlur}
+          className="w-full bg-dark border border-dark3 focus:border-gold
+            text-text text-sm rounded px-3 py-2.5 outline-none
+            transition-colors resize-none"
+        />
+      ) : (
+        <input
+          name={name}
+          type={type}
+          value={value as string}
+          onChange={handleChange}
+          onBlur={handleBlur}
+          className="w-full bg-dark border border-dark3 focus:border-gold
+            text-text text-sm rounded px-3 py-2.5 outline-none transition-colors"
+        />
+      )}
+      {isTouched && error && <p className="text-red text-xs mt-1">{error}</p>}
+    </div>
+  );
 }
 
 export default function ProductForm({ product, onSubmit, loading }: Props) {
@@ -26,7 +93,7 @@ export default function ProductForm({ product, onSubmit, loading }: Props) {
   );
   const fileRef = useRef<HTMLInputElement>(null);
 
-  const formik = useFormik({
+  const formik = useFormik<FormValues>({
     initialValues: {
       nameEn: product?.nameEn ?? "",
       nameAr: product?.nameAr ?? "",
@@ -36,7 +103,7 @@ export default function ProductForm({ product, onSubmit, loading }: Props) {
       sku: product?.sku ?? "",
       stockQuantity: product?.stockQuantity ?? 0,
       lowStockThreshold: product?.lowStockThreshold ?? 10,
-      categoryId: product?.categoryId ?? "",
+      categoryId: product?.categoryId != null ? String(product.categoryId) : "",
       isFeatured: product?.isFeatured ?? false,
       isActive: product?.isActive ?? true,
     },
@@ -56,55 +123,6 @@ export default function ProductForm({ product, onSubmit, loading }: Props) {
     const file = e.target.files?.[0];
     if (file) setPreview(URL.createObjectURL(file));
   };
-
-  // Field helper for DRY rendering
-  const Field = ({
-    name,
-    label,
-    labelAr,
-    type = "text",
-    as,
-  }: {
-    name: string;
-    label: string;
-    labelAr: string;
-    type?: string;
-    as?: string;
-  }) => (
-    <div>
-      <label className="font-ui text-xs text-text3 mb-1 block">
-        <span className="font-arabic">{labelAr}</span> | {label}
-      </label>
-      {as === "textarea" ? (
-        <textarea
-          name={name}
-          rows={3}
-          value={formik.values[name as keyof typeof formik.values] as string}
-          onChange={formik.handleChange}
-          onBlur={formik.handleBlur}
-          className="w-full bg-dark border border-dark3 focus:border-gold
-            text-text text-sm rounded px-3 py-2.5 outline-none
-            transition-colors resize-none"
-        />
-      ) : (
-        <input
-          name={name}
-          type={type}
-          value={formik.values[name as keyof typeof formik.values] as string}
-          onChange={formik.handleChange}
-          onBlur={formik.handleBlur}
-          className="w-full bg-dark border border-dark3 focus:border-gold
-            text-text text-sm rounded px-3 py-2.5 outline-none transition-colors"
-        />
-      )}
-      {formik.touched[name as keyof typeof formik.values] &&
-        (formik.errors[name as keyof typeof formik.values] as string) && (
-          <p className="text-red text-xs mt-1">
-            {formik.errors[name as keyof typeof formik.values] as string}
-          </p>
-        )}
-    </div>
-  );
 
   return (
     <form

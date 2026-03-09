@@ -4,6 +4,7 @@ import type { ProductQuery } from "../types/api.types";
 
 export const PRODUCTS_KEY = "products";
 // Fetch paginated products list (public)
+
 export function useProducts(query?: ProductQuery) {
   return useQuery({
     queryKey: [PRODUCTS_KEY, query],
@@ -41,7 +42,33 @@ export function useDeleteProduct() {
   const qc = useQueryClient();
   return useMutation({
     mutationFn: (id: number) => productsApi.delete(id),
-    onSuccess: () => qc.invalidateQueries({ queryKey: [PRODUCTS_KEY] }),
+    // 1. Snapshot current cache before mutation
+    onMutate: async (id: number) => {
+      await qc.cancelQueries({ queryKey: [PRODUCTS_KEY] });
+      const prev = qc.getQueriesData({ queryKey: [PRODUCTS_KEY] });
+      // 2. Remove item from every cached list immediately
+      qc.setQueriesData({ queryKey: [PRODUCTS_KEY] }, (old: any) => {
+        if (!old?.data) return old;
+        return {
+          ...old,
+          data: old.data.filter((p: any) => p.id !== id),
+          meta: { ...old.meta, total: old.meta.total - 1 },
+        };
+      });
+      return { prev }; // return snapshot for rollback
+    },
+    // 3. On error: rollback to snapshot
+    onError: (_err, _id, context: any) => {
+      if (context?.prev) {
+        context.prev.forEach(([key, data]: any) => {
+          qc.setQueryData(key, data);
+        });
+      }
+    },
+    // 4. Always refetch after settle to stay in sync
+    onSettled: () => {
+      qc.invalidateQueries({ queryKey: [PRODUCTS_KEY] });
+    },
   });
 }
 
