@@ -1,4 +1,4 @@
-import HeroSection from "./HeroSection";
+import { HeroSection } from "./HeroSection";
 import Ticker from "./Ticker";
 import CategoriesSection from "./CategoriesSection";
 import { useEffect, useState } from "react";

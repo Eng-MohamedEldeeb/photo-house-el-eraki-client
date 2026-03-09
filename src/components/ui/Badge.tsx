@@ -22,14 +22,12 @@ const config: Record<
 };
 
 export default function Badge({ status }: { status: StockStatus }) {
-  const { label, labelAr, cls } = config[status];
+  const { label, cls } = config[status];
   return (
     <span
       className={`text-xs font-ui font-semibold px-2 py-0.5
       border rounded-full tracking-wide ${cls}`}
     >
-      <span className="font-arabic">{labelAr}</span>
-      <span className="mx-1 opacity-40">|</span>
       {label}
     </span>
   );

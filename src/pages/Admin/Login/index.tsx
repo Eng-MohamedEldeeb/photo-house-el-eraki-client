@@ -15,6 +15,7 @@ const schema = Yup.object({
   username: Yup.string().required("Required"),
   password: Yup.string().min(6, "Min 6 chars").required("Required"),
 });
+
 export default function AdminLogin() {
   const dispatch = useAppDispatch();
   const navigate = useNavigate();

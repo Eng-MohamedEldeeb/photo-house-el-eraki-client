@@ -21,6 +21,7 @@ const sizes: Record<Size, string> = {
   md: "text-sm px-5 py-2.5",
   lg: "text-base px-8 py-3",
 };
+
 export default function Button({
   variant = "gold",
   size = "md",

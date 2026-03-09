@@ -24,7 +24,7 @@ export default function Store() {
     <div className="min-h-screen bg-black py-12">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="mb-8">
-          <h1 className="font-display text-3xl text-ivory">Store | Store</h1>
+          <h1 className="font-display text-3xl text-ivory">Store</h1>
           <p className="font-ui text-text3 text-sm mt-1">
             {data?.meta.total ?? 0} products available
           </p>

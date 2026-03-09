@@ -17,6 +17,8 @@ export default function AdminProducts() {
   const createMutation = useCreateProduct();
   const updateMutation = useUpdateProduct(Number(id));
   const handleSubmit = async (formData: FormData) => {
+    console.log({ formData });
+
     if (isNew) {
       await createMutation.mutateAsync(formData);
     } else {

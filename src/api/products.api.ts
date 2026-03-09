@@ -25,7 +25,10 @@ export const productsApi = {
       .post<Product>("/admin/products", formData, {
         headers: { "Content-Type": "multipart/form-data" },
       })
-      .then((r) => r.data),
+      .then((r) => r.data)
+      .catch((e) => {
+        console.error("Create product error:", e.response?.data || e);
+      }),
   update: (id: number, formData: FormData) =>
     api
       .patch<Product>(`/admin/products/${id}`, formData, {

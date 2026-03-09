@@ -1,10 +1,9 @@
-import { useFormik, useFormikContext } from "formik";
+import { useFormik } from "formik";
 import * as Yup from "yup";
 import { useState, useRef } from "react";
 import Button from "../../../components/ui/Button";
 import { useCategories } from "../../../hooks/useCategories";
 import type { Product } from "../../../types/product.types";
-
 const schema = Yup.object({
   nameEn: Yup.string().min(2).required("Required"),
   nameAr: Yup.string().min(2).required("Required"),
@@ -12,80 +11,11 @@ const schema = Yup.object({
   stockQuantity: Yup.number().min(0).required("Required"),
   categoryId: Yup.number().nullable(),
 });
-
-// typed form values to avoid `any` usage in Formik context
-interface FormValues {
-  nameEn: string;
-  nameAr: string;
-  descriptionEn: string;
-  descriptionAr: string;
-  price: number;
-  sku: string;
-  stockQuantity: number;
-  lowStockThreshold: number;
-  categoryId: string;
-  isFeatured: boolean;
-  isActive: boolean;
-}
-
 interface Props {
   product?: Product;
   onSubmit: (formData: FormData) => Promise<void>;
   loading?: boolean;
 }
-
-// -------------------------------------------------------
-// reusable form field component declared outside render
-// uses Formik context to access form state/actions
-// -------------------------------------------------------
-interface FieldProps {
-  name: keyof FormValues;
-  label: string;
-  labelAr: string;
-  type?: string;
-  as?: string;
-}
-
-function Field({ name, label, labelAr, type = "text", as }: FieldProps) {
-  const { values, handleChange, handleBlur, touched, errors } =
-    useFormikContext<FormValues>();
-
-  const value = values[name] as string | number | boolean;
-  const error = errors[name] as string | undefined;
-  const isTouched = touched[name] as boolean | undefined;
-
-  return (
-    <div>
-      <label className="font-ui text-xs text-text3 mb-1 block">
-        <span className="font-arabic">{labelAr}</span> | {label}
-      </label>
-      {as === "textarea" ? (
-        <textarea
-          name={name}
-          rows={3}
-          value={value as string}
-          onChange={handleChange}
-          onBlur={handleBlur}
-          className="w-full bg-dark border border-dark3 focus:border-gold
-            text-text text-sm rounded px-3 py-2.5 outline-none
-            transition-colors resize-none"
-        />
-      ) : (
-        <input
-          name={name}
-          type={type}
-          value={value as string}
-          onChange={handleChange}
-          onBlur={handleBlur}
-          className="w-full bg-dark border border-dark3 focus:border-gold
-            text-text text-sm rounded px-3 py-2.5 outline-none transition-colors"
-        />
-      )}
-      {isTouched && error && <p className="text-red text-xs mt-1">{error}</p>}
-    </div>
-  );
-}
-
 export default function ProductForm({ product, onSubmit, loading }: Props) {
   const { data: categories } = useCategories();
   const [preview, setPreview] = useState<string | null>(
@@ -93,7 +23,7 @@ export default function ProductForm({ product, onSubmit, loading }: Props) {
   );
   const fileRef = useRef<HTMLInputElement>(null);
 
-  const formik = useFormik<FormValues>({
+  const formik = useFormik({
     initialValues: {
       nameEn: product?.nameEn ?? "",
       nameAr: product?.nameAr ?? "",
@@ -103,7 +33,7 @@ export default function ProductForm({ product, onSubmit, loading }: Props) {
       sku: product?.sku ?? "",
       stockQuantity: product?.stockQuantity ?? 0,
       lowStockThreshold: product?.lowStockThreshold ?? 10,
-      categoryId: product?.categoryId != null ? String(product.categoryId) : "",
+      categoryId: product?.categoryId ?? "",
       isFeatured: product?.isFeatured ?? false,
       isActive: product?.isActive ?? true,
     },
@@ -129,34 +59,150 @@ export default function ProductForm({ product, onSubmit, loading }: Props) {
       onSubmit={formik.handleSubmit}
       className="grid grid-cols-1 md:grid-cols-2 gap-5"
     >
-      <Field name="nameEn" label="Name (EN)" labelAr="Name (EN)" />
-      <Field name="nameAr" label="Name (AR)" labelAr="Name (AR)" />
-      <Field
-        name="descriptionEn"
-        label="Description (EN)"
-        labelAr="Description (EN)"
-        as="textarea"
-      />
-      <Field
-        name="descriptionAr"
-        label="Description (AR)"
-        labelAr="Description (AR)"
-        as="textarea"
-      />
-      <Field name="price" label="Price (EGP)" labelAr="Price" type="number" />
-      <Field name="sku" label="SKU" labelAr="SKU" />
-      <Field
-        name="stockQuantity"
-        label="Stock Qty"
-        labelAr="Quantity"
-        type="number"
-      />
-      <Field
-        name="lowStockThreshold"
-        label="Low Stock Threshold"
-        labelAr="Low Stock Threshold"
-        type="number"
-      />
+      <div>
+        <label className="font-ui text-xs text-text3 mb-1 block">
+          <span className="font-arabic">Name (EN)</span> | Name (EN)
+        </label>
+        <input
+          name="nameEn"
+          type="text"
+          value={formik.values.nameEn}
+          onChange={formik.handleChange}
+          onBlur={formik.handleBlur}
+          className="w-full bg-dark border border-dark3 focus:border-gold
+          text-text text-sm rounded px-3 py-2.5 outline-none transition-colors"
+        />
+        {formik.touched.nameEn && formik.errors.nameEn && (
+          <p className="text-red text-xs mt-1">{formik.errors.nameEn}</p>
+        )}
+      </div>
+      <div>
+        <label className="font-ui text-xs text-text3 mb-1 block">
+          <span className="font-arabic">Name (AR)</span> | Name (AR)
+        </label>
+        <input
+          name="nameAr"
+          type="text"
+          value={formik.values.nameAr}
+          onChange={formik.handleChange}
+          onBlur={formik.handleBlur}
+          className="w-full bg-dark border border-dark3 focus:border-gold
+          text-text text-sm rounded px-3 py-2.5 outline-none transition-colors"
+        />
+        {formik.touched.nameAr && formik.errors.nameAr && (
+          <p className="text-red text-xs mt-1">{formik.errors.nameAr}</p>
+        )}
+      </div>
+      <div>
+        <label className="font-ui text-xs text-text3 mb-1 block">
+          <span className="font-arabic">Description (EN)</span> | Description
+          (EN)
+        </label>
+        <textarea
+          name="descriptionEn"
+          rows={3}
+          value={formik.values.descriptionEn}
+          onChange={formik.handleChange}
+          onBlur={formik.handleBlur}
+          className="w-full bg-dark border border-dark3 focus:border-gold
+            text-text text-sm rounded px-3 py-2.5 outline-none
+            transition-colors resize-none"
+        />
+        {formik.touched.descriptionEn && formik.errors.descriptionEn && (
+          <p className="text-red text-xs mt-1">{formik.errors.descriptionEn}</p>
+        )}
+      </div>
+      <div>
+        <label className="font-ui text-xs text-text3 mb-1 block">
+          <span className="font-arabic">Description (AR)</span> | Description
+          (AR)
+        </label>
+        <textarea
+          name="descriptionAr"
+          rows={3}
+          value={formik.values.descriptionAr}
+          onChange={formik.handleChange}
+          onBlur={formik.handleBlur}
+          className="w-full bg-dark border border-dark3 focus:border-gold
+            text-text text-sm rounded px-3 py-2.5 outline-none
+            transition-colors resize-none"
+        />
+        {formik.touched.descriptionAr && formik.errors.descriptionAr && (
+          <p className="text-red text-xs mt-1">{formik.errors.descriptionAr}</p>
+        )}
+      </div>
+      <div>
+        <label className="font-ui text-xs text-text3 mb-1 block">
+          <span className="font-arabic">Price</span> | Price (EGP)
+        </label>
+        <input
+          name="price"
+          type="number"
+          value={formik.values.price}
+          onChange={formik.handleChange}
+          onBlur={formik.handleBlur}
+          className="w-full bg-dark border border-dark3 focus:border-gold
+            text-text text-sm rounded px-3 py-2.5 outline-none transition-colors"
+        />
+        {formik.touched.price && formik.errors.price && (
+          <p className="text-red text-xs mt-1">{formik.errors.price}</p>
+        )}
+      </div>
+      <div>
+        <label className="font-ui text-xs text-text3 mb-1 block">
+          <span className="font-arabic">SKU</span> | SKU
+        </label>
+        <input
+          name="sku"
+          type="text"
+          value={formik.values.sku}
+          onChange={formik.handleChange}
+          onBlur={formik.handleBlur}
+          className="w-full bg-dark border border-dark3 focus:border-gold
+            text-text text-sm rounded px-3 py-2.5 outline-none transition-colors"
+        />
+        {formik.touched.sku && formik.errors.sku && (
+          <p className="text-red text-xs mt-1">{formik.errors.sku}</p>
+        )}
+      </div>
+      <div>
+        <label className="font-ui text-xs text-text3 mb-1 block">
+          <span className="font-arabic">Quantity</span> | Stock Qty
+        </label>
+        <input
+          name="stockQuantity"
+          type="number"
+          value={formik.values.stockQuantity}
+          onChange={formik.handleChange}
+          onBlur={formik.handleBlur}
+          className="w-full bg-dark border border-dark3 focus:border-gold
+            text-text text-sm rounded px-3 py-2.5 outline-none transition-colors"
+        />
+        {formik.touched.stockQuantity && formik.errors.stockQuantity && (
+          <p className="text-red text-xs mt-1">{formik.errors.stockQuantity}</p>
+        )}
+      </div>
+      <div>
+        <label className="font-ui text-xs text-text3 mb-1 block">
+          <span className="font-arabic">Low Stock Threshold</span> | Low Stock
+          Threshold
+        </label>
+        <input
+          name="lowStockThreshold"
+          type="number"
+          value={formik.values.lowStockThreshold}
+          onChange={formik.handleChange}
+          onBlur={formik.handleBlur}
+          className="w-full bg-dark border border-dark3 focus:border-gold
+            text-text text-sm rounded px-3 py-2.5 outline-none transition-colors"
+        />
+        {formik.touched.lowStockThreshold &&
+          formik.errors.lowStockThreshold && (
+            <p className="text-red text-xs mt-1">
+              {formik.errors.lowStockThreshold}
+            </p>
+          )}
+      </div>
       {/* Category select */}
       <div>
         <label className="font-ui text-xs text-text3 mb-1 block">
