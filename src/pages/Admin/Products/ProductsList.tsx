@@ -14,7 +14,7 @@ export default function ProductsList() {
 
   const { data, isLoading } = useAdminProducts();
   const deleteMutation = useDeleteProduct();
-  const [deleteId, setDeleteId] = useState<number | null>(null);
+  const [deleteId, setDeleteId] = useState<string | null>(null);
 
   const handleDelete = async () => {
     try {
@@ -94,7 +94,7 @@ export default function ProductsList() {
                       </p>
                       <p className="font-ui text-text3 text-xs">{p.nameEn}</p>
                     </td>
-                    <td className="px-4 py-3 font-ui text-gold">
+                    <td className="px-4 py-3 font-ui text-yellow-400">
                       {p.price} EGP
                     </td>
                     <td className="px-4 py-3 font-ui text-text2">
@@ -109,7 +109,7 @@ export default function ProductsList() {
                         <Link to={`/admin/products/${p.id}/edit`}>
                           <Button variant="outline" size="sm">
                             Edit
-                          </Button>{" "}
+                          </Button>
                         </Link>
                         <Button
                           variant="danger"

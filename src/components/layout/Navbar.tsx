@@ -31,7 +31,7 @@ export default function Navbar() {
           {/* Logo */}
           <Link to="/" className="flex flex-col leading-none">
             <span
-              className="font-display text-xl text-gold
+              className="font-display text-xl text-yellow-400
               tracking-widest"
             >
               PHOTO HOUSE
@@ -50,7 +50,7 @@ export default function Navbar() {
                 key={to}
                 to={to as string}
                 className={({ isActive }) =>
-                  `font-ui text-sm tracking-wider transition-colors ${isActive ? "text-gold" : "text-text2 hover:text-gold"}`
+                  `font-ui text-sm tracking-wider transition-colors ${isActive ? "text-yellow-400" : "text-text2 hover:text-yellow-400"}`
                 }
               >
                 {label}
@@ -68,7 +68,7 @@ export default function Navbar() {
           </div>
           {/* Mobile menu button */}
           <button
-            className="md:hidden text-text2 hover:text-gold p-2"
+            className="md:hidden text-text2 hover:text-yellow-400 p-2"
             onClick={() => setOpen(!open)}
           >
             <span className="block w-6 h-0.5 bg-current mb-1.5" />
@@ -83,7 +83,7 @@ export default function Navbar() {
           <Link
             to="/"
             className="font-ui text-sm text-text2
-            hover:text-gold"
+            hover:text-yellow-400"
             onClick={() => setOpen(false)}
           >
             Home
@@ -91,7 +91,7 @@ export default function Navbar() {
           <Link
             to="/store"
             className="font-ui text-sm text-text2
-            hover:text-gold"
+            hover:text-yellow-400"
             onClick={() => setOpen(false)}
           >
             Store

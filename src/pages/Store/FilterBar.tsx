@@ -38,7 +38,7 @@ export default function FilterBar() {
           value={search}
           onChange={(e) => set("search", e.target.value)}
           placeholder="Search products..."
-          className="w-full bg-dark2 border border-dark3 focus:border-gold
+          className="w-full bg-dark2 border border-dark3 focus:border-yellow-400
             text-text text-sm rounded px-9 py-2.5 outline-none transition-colors"
         />
       </div>
@@ -50,8 +50,8 @@ export default function FilterBar() {
           className={`font-ui text-xs px-3 py-1.5 rounded-full border
             transition-colors ${
               !categoryId
-                ? "bg-gold text-dark border-gold"
-                : "border-dark3 text-text3 hover:border-gold/50"
+                ? "bg-yellow-400 text-dark border-yellow-400"
+                : "border-dark3 text-text3 hover:border-yellow-400/50"
             }`}
         >
           All
@@ -63,8 +63,8 @@ export default function FilterBar() {
             className={`font-ui text-xs px-3 py-1.5 rounded-full border
               transition-colors ${
                 categoryId === String(c.id)
-                  ? "bg-gold text-dark border-gold"
-                  : "border-dark3 text-text3 hover:border-gold/50"
+                  ? "bg-yellow-400 text-dark border-yellow-400"
+                  : "border-dark3 text-text3 hover:border-yellow-400/50"
               }`}
           >
             {c.nameAr}
@@ -80,8 +80,8 @@ export default function FilterBar() {
             className={`font-ui text-xs px-3 py-1.5 rounded-full border
               transition-colors ${
                 stockStatus === f.value
-                  ? "bg-gold text-dark border-gold"
-                  : "border-dark3 text-text3 hover:border-gold/50"
+                  ? "bg-yellow-400 text-dark border-yellow-400"
+                  : "border-dark3 text-text3 hover:border-yellow-400/50"
               }`}
           >
             <span className="font-arabic">{f.labelAr}</span>

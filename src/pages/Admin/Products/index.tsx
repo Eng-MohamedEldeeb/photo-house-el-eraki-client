@@ -4,6 +4,7 @@ import ProductForm from "./ProductForm";
 import { useProduct } from "../../../hooks/useProducts";
 import { useCreateProduct, useUpdateProduct } from "../../../hooks/useProducts";
 import Spinner from "../../../components/ui/Spinner";
+import type { Product } from "../../../types/product.types";
 
 export default function AdminProducts() {
   const { id } = useParams<{ id?: string }>();
@@ -13,18 +14,24 @@ export default function AdminProducts() {
   const isEdit = !!id;
 
   // Edit: fetch existing product
-  const { data: product, isLoading } = useProduct(Number(id));
-  const createMutation = useCreateProduct();
-  const updateMutation = useUpdateProduct(Number(id));
-  const handleSubmit = async (formData: FormData) => {
-    console.log({ formData });
+  const { data: product, isLoading } = useProduct(id as string);
 
-    if (isNew) {
-      await createMutation.mutateAsync(formData);
-    } else {
-      await updateMutation.mutateAsync(formData);
+  const createMutation = useCreateProduct();
+  const updateMutation = useUpdateProduct(id as string);
+
+  const handleSubmit = async (formData: FormData) => {
+    try {
+      console.log({ formData });
+
+      if (isNew) {
+        await createMutation.mutateAsync(formData);
+      } else {
+        await updateMutation.mutateAsync(formData);
+      }
+      navigate("/admin/products");
+    } catch (error) {
+      console.log(error);
     }
-    navigate("/admin/products");
   };
 
   // List view
@@ -41,7 +48,7 @@ export default function AdminProducts() {
       </div>
       <div className="bg-dark2 border border-dark3 rounded p-6">
         <ProductForm
-          product={isEdit ? product : undefined}
+          product={isEdit ? (product as Product) : undefined}
           onSubmit={handleSubmit}
           loading={createMutation.isPending || updateMutation.isPending}
         />

@@ -5,7 +5,7 @@ import Spinner from "../../components/ui/Spinner";
 
 export default function ProductDetail() {
   const { id } = useParams<{ id: string }>();
-  const { data: product, isLoading, isError } = useProduct(Number(id));
+  const { data: product, isLoading, isError } = useProduct(id as string);
 
   if (isLoading) return <Spinner />;
 
@@ -18,7 +18,7 @@ export default function ProductDetail() {
         <p className="font-ui text-text2 text-xl">Product not found</p>
         <Link
           to="/store"
-          className="text-gold font-ui text-sm
+          className="text-yellow-400 font-ui text-sm
         hover:underline"
         >
           ← Back to Store
@@ -33,11 +33,11 @@ export default function ProductDetail() {
           className="flex items-center gap-2 font-ui text-xs
           text-text3 mb-8"
         >
-          <Link to="/" className="hover:text-gold">
+          <Link to="/" className="hover:text-yellow-400">
             Home
           </Link>
           <span>/</span>
-          <Link to="/store" className="hover:text-gold">
+          <Link to="/store" className="hover:text-yellow-400">
             Store
           </Link>
           <span>/</span>
@@ -65,7 +65,7 @@ export default function ProductDetail() {
           <div className="flex flex-col gap-5">
             {product.category && (
               <span
-                className="font-ui text-xs text-gold tracking-widest
+                className="font-ui text-xs text-yellow-400 tracking-widest
                 uppercase"
               >
                 {product.category.nameEn}
@@ -80,7 +80,7 @@ export default function ProductDetail() {
               </p>
             </div>
             <div className="flex items-center gap-3">
-              <span className="font-ui font-bold text-gold text-3xl">
+              <span className="font-ui font-bold text-yellow-400 text-3xl">
                 {product.price} EGP
               </span>
               <Badge status={product.stockStatus} />
@@ -109,7 +109,7 @@ export default function ProductDetail() {
             )}
             <Link
               to="/store"
-              className="font-ui text-sm text-gold hover:underline mt-2"
+              className="font-ui text-sm text-yellow-400 hover:underline mt-2"
             >
               ← Back to Store | Back to Store
             </Link>

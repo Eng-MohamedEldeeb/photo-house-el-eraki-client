@@ -24,7 +24,7 @@ export default function Pagination({
         onClick={() => goTo(currentPage - 1)}
         disabled={currentPage === 1}
         className="font-ui text-xs px-3 py-2 border border-dark3
-          text-text3 hover:border-gold/50 disabled:opacity-30 rounded"
+          text-text3 hover:border-yellow-400/50 disabled:opacity-30 rounded"
       >
         ← Prev
       </button>
@@ -35,8 +35,8 @@ export default function Pagination({
           className={`font-ui text-xs w-8 h-8 rounded border transition-colors
             ${
               p === currentPage
-                ? "bg-gold text-dark border-gold font-bold"
-                : "border-dark3 text-text3 hover:border-gold/50"
+                ? "bg-yellow-400 text-dark border-yellow-400 font-bold"
+                : "border-dark3 text-text3 hover:border-yellow-400/50"
             }`}
         >
           {p}
@@ -46,7 +46,7 @@ export default function Pagination({
         onClick={() => goTo(currentPage + 1)}
         disabled={currentPage === totalPages}
         className="font-ui text-xs px-3 py-2 border border-dark3
-          text-text3 hover:border-gold/50 disabled:opacity-30 rounded"
+          text-text3 hover:border-yellow-400/50 disabled:opacity-30 rounded"
       >
         Next →
       </button>

@@ -10,16 +10,32 @@ export const productsApi = {
   getAll: (query?: ProductQuery) =>
     api
       .get<PaginatedResponse<Product>>("/products", { params: query })
-      .then((r) => r.data),
-  getById: (id: number) =>
-    api.get<Product>(`/products/${id}`).then((r) => r.data),
+      .then((r) => r.data)
+      .catch((e) => {
+        console.error("Get products error:", e.response?.data || e);
+      }),
+  getById: (id: string) =>
+    api
+      .get<Product>(`/products/${id}`)
+      .then((r) => r.data)
+      .catch((e) => {
+        console.error("Get product error:", e.response?.data || e);
+      }),
   // Admin routes
   getAllAdmin: (query?: ProductQuery) =>
     api
       .get<PaginatedResponse<Product>>("/admin/products", { params: query })
-      .then((r) => r.data),
+      .then((r) => r.data)
+      .catch((e) => {
+        console.error("Get admin products error:", e.response?.data || e);
+      }),
   getStockSummary: () =>
-    api.get<StockSummary>("/admin/products/stock-summary").then((r) => r.data),
+    api
+      .get<StockSummary>("/admin/products/stock-summary")
+      .then((r) => r.data)
+      .catch((e) => {
+        console.error("Get stock summary error:", e.response?.data || e);
+      }),
   create: (formData: FormData) =>
     api
       .post<Product>("/admin/products", formData, {
@@ -27,16 +43,29 @@ export const productsApi = {
       })
       .then((r) => r.data)
       .catch((e) => {
-        console.error("Create product error:", e.response?.data || e);
+        throw e.response?.data || e;
       }),
-  update: (id: number, formData: FormData) =>
+  update: (id: string, formData: FormData) =>
     api
       .patch<Product>(`/admin/products/${id}`, formData, {
         headers: { "Content-Type": "multipart/form-data" },
       })
-      .then((r) => r.data),
-  updateStock: (id: number, dto: UpdateStockDto) =>
-    api.patch<Product>(`/admin/products/${id}/stock`, dto).then((r) => r.data),
-  delete: (id: number) =>
-    api.delete(`/admin/products/${id}`).then((r) => r.data),
+      .then((r) => r.data)
+      .catch((e) => {
+        console.error("Update product error:", e.response?.data || e);
+      }),
+  updateStock: (id: string, dto: UpdateStockDto) =>
+    api
+      .patch<Product>(`/admin/products/${id}/stock`, dto)
+      .then((r) => r.data)
+      .catch((e) => {
+        console.error("Update stock error:", e.response?.data || e);
+      }),
+  delete: (id: string) =>
+    api
+      .delete(`/admin/products/${id}`)
+      .then((r) => r.data)
+      .catch((e) => {
+        console.error("Delete product error:", e.response?.data || e);
+      }),
 };

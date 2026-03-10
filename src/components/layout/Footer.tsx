@@ -6,7 +6,9 @@ export default function Footer() {
         flex flex-col md:flex-row items-center justify-between gap-4"
       >
         <div>
-          <p className="font-display text-gold text-lg">PHOTO HOUSE EL ERAKI</p>
+          <p className="font-display text-yellow-400 text-lg">
+            PHOTO HOUSE EL ERAKI
+          </p>
           <p className="font-ui text-text3 text-sm mt-1">
             Photo House El Eraki 2014 Photography Supplies
           </p>

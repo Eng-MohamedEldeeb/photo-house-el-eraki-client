@@ -20,7 +20,7 @@ export default function EmptyState({ title, subtitle, action }: Props) {
       {action && (
         <button
           onClick={action.onClick}
-          className="font-ui text-sm text-gold hover:underline mt-2"
+          className="font-ui text-sm text-yellow-400 hover:underline mt-2"
         >
           {action.label}
         </button>

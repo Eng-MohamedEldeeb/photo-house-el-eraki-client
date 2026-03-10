@@ -1,7 +1,7 @@
 import { createSlice, type PayloadAction } from "@reduxjs/toolkit";
 
 interface Admin {
-  id: number;
+  id: string;
   username: string;
 }
 

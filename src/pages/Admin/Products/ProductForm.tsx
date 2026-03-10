@@ -4,13 +4,21 @@ import { useState, useRef } from "react";
 import Button from "../../../components/ui/Button";
 import { useCategories } from "../../../hooks/useCategories";
 import type { Product } from "../../../types/product.types";
+
 const schema = Yup.object({
   nameEn: Yup.string().min(2).required("Required"),
   nameAr: Yup.string().min(2).required("Required"),
   price: Yup.number().min(0).required("Required"),
   stockQuantity: Yup.number().min(0).required("Required"),
-  categoryId: Yup.number().nullable(),
+  categoryId: Yup.string().nullable(),
+  descriptionEn: Yup.string().nullable(),
+  descriptionAr: Yup.string().nullable(),
+  sku: Yup.string().nullable(),
+  lowStockThreshold: Yup.number().min(0).nullable(),
+  // isFeatured: Yup.boolean().required("Required"),
+  // isActive: Yup.boolean().required("Required"),
 });
+
 interface Props {
   product?: Product;
   onSubmit: (formData: FormData) => Promise<void>;
@@ -21,21 +29,20 @@ export default function ProductForm({ product, onSubmit, loading }: Props) {
   const [preview, setPreview] = useState<string | null>(
     product?.imageUrl ?? null,
   );
+
   const fileRef = useRef<HTMLInputElement>(null);
 
   const formik = useFormik({
     initialValues: {
-      nameEn: product?.nameEn ?? "",
-      nameAr: product?.nameAr ?? "",
-      descriptionEn: product?.descriptionEn ?? "",
-      descriptionAr: product?.descriptionAr ?? "",
-      price: product?.price ?? 0,
-      sku: product?.sku ?? "",
-      stockQuantity: product?.stockQuantity ?? 0,
-      lowStockThreshold: product?.lowStockThreshold ?? 10,
-      categoryId: product?.categoryId ?? "",
-      isFeatured: product?.isFeatured ?? false,
-      isActive: product?.isActive ?? true,
+      nameEn: product ? product.nameEn : "camera",
+      nameAr: product ? product.nameAr : "كاميرا",
+      descriptionEn: product ? product.descriptionEn : "description",
+      descriptionAr: product ? product.descriptionAr : "ىصف المنتج",
+      price: product ? product.price : 0,
+      sku: product ? product.sku : "sku123",
+      stockQuantity: product ? product.stockQuantity : 20,
+      lowStockThreshold: product ? product.lowStockThreshold : 10,
+      categoryId: product ? product.categoryId : "",
     },
     validationSchema: schema,
     onSubmit: async (values) => {
@@ -69,7 +76,7 @@ export default function ProductForm({ product, onSubmit, loading }: Props) {
           value={formik.values.nameEn}
           onChange={formik.handleChange}
           onBlur={formik.handleBlur}
-          className="w-full bg-dark border border-dark3 focus:border-gold
+          className="w-full bg-dark border border-dark3 focus:border-yellow-400
           text-text text-sm rounded px-3 py-2.5 outline-none transition-colors"
         />
         {formik.touched.nameEn && formik.errors.nameEn && (
@@ -86,7 +93,7 @@ export default function ProductForm({ product, onSubmit, loading }: Props) {
           value={formik.values.nameAr}
           onChange={formik.handleChange}
           onBlur={formik.handleBlur}
-          className="w-full bg-dark border border-dark3 focus:border-gold
+          className="w-full bg-dark border border-dark3 focus:border-yellow-400
           text-text text-sm rounded px-3 py-2.5 outline-none transition-colors"
         />
         {formik.touched.nameAr && formik.errors.nameAr && (
@@ -104,7 +111,7 @@ export default function ProductForm({ product, onSubmit, loading }: Props) {
           value={formik.values.descriptionEn}
           onChange={formik.handleChange}
           onBlur={formik.handleBlur}
-          className="w-full bg-dark border border-dark3 focus:border-gold
+          className="w-full bg-dark border border-dark3 focus:border-yellow-400
             text-text text-sm rounded px-3 py-2.5 outline-none
             transition-colors resize-none"
         />
@@ -123,7 +130,7 @@ export default function ProductForm({ product, onSubmit, loading }: Props) {
           value={formik.values.descriptionAr}
           onChange={formik.handleChange}
           onBlur={formik.handleBlur}
-          className="w-full bg-dark border border-dark3 focus:border-gold
+          className="w-full bg-dark border border-dark3 focus:border-yellow-400
             text-text text-sm rounded px-3 py-2.5 outline-none
             transition-colors resize-none"
         />
@@ -141,7 +148,7 @@ export default function ProductForm({ product, onSubmit, loading }: Props) {
           value={formik.values.price}
           onChange={formik.handleChange}
           onBlur={formik.handleBlur}
-          className="w-full bg-dark border border-dark3 focus:border-gold
+          className="w-full bg-dark border border-dark3 focus:border-yellow-400
             text-text text-sm rounded px-3 py-2.5 outline-none transition-colors"
         />
         {formik.touched.price && formik.errors.price && (
@@ -158,7 +165,7 @@ export default function ProductForm({ product, onSubmit, loading }: Props) {
           value={formik.values.sku}
           onChange={formik.handleChange}
           onBlur={formik.handleBlur}
-          className="w-full bg-dark border border-dark3 focus:border-gold
+          className="w-full bg-dark border border-dark3 focus:border-yellow-400
             text-text text-sm rounded px-3 py-2.5 outline-none transition-colors"
         />
         {formik.touched.sku && formik.errors.sku && (
@@ -171,11 +178,11 @@ export default function ProductForm({ product, onSubmit, loading }: Props) {
         </label>
         <input
           name="stockQuantity"
-          type="number"
+          type="text"
           value={formik.values.stockQuantity}
           onChange={formik.handleChange}
           onBlur={formik.handleBlur}
-          className="w-full bg-dark border border-dark3 focus:border-gold
+          className="w-full bg-dark border border-dark3 focus:border-yellow-400
             text-text text-sm rounded px-3 py-2.5 outline-none transition-colors"
         />
         {formik.touched.stockQuantity && formik.errors.stockQuantity && (
@@ -193,7 +200,7 @@ export default function ProductForm({ product, onSubmit, loading }: Props) {
           value={formik.values.lowStockThreshold}
           onChange={formik.handleChange}
           onBlur={formik.handleBlur}
-          className="w-full bg-dark border border-dark3 focus:border-gold
+          className="w-full bg-dark border border-dark3 focus:border-yellow-400
             text-text text-sm rounded px-3 py-2.5 outline-none transition-colors"
         />
         {formik.touched.lowStockThreshold &&
@@ -212,7 +219,7 @@ export default function ProductForm({ product, onSubmit, loading }: Props) {
           name="categoryId"
           value={formik.values.categoryId}
           onChange={formik.handleChange}
-          className="w-full bg-dark border border-dark3 focus:border-gold
+          className="w-full bg-dark border border-dark3 focus:border-yellow-400
             text-text text-sm rounded px-3 py-2.5 outline-none transition-colors"
         >
           <option value="">— No Category</option>
@@ -232,7 +239,7 @@ export default function ProductForm({ product, onSubmit, loading }: Props) {
           accept="image/*"
           onChange={handleFileChange}
           className="w-full bg-dark border border-dark3 text-text3
-            text-xs rounded px-3 py-2.5 file:mr-3 file:bg-gold
+            text-xs rounded px-3 py-2.5 file:mr-3 file:bg-yellow-400
             file:text-dark file:border-0 file:px-3 file:py-1
             file:rounded file:font-ui file:text-xs cursor-pointer"
         />
@@ -245,7 +252,7 @@ export default function ProductForm({ product, onSubmit, loading }: Props) {
           />
         )}
       </div>
-      {/* Checkboxes */}
+      {/* Checkboxes
       <div className="col-span-full flex items-center gap-6">
         {[
           ["isFeatured", "Featured"],
@@ -263,12 +270,12 @@ export default function ProductForm({ product, onSubmit, loading }: Props) {
                 formik.values[name as keyof typeof formik.values] as boolean
               }
               onChange={formik.handleChange}
-              className="accent-gold w-4 h-4"
+              className="accent-yellow-400 w-4 h-4"
             />
             {lbl}
           </label>
         ))}
-      </div>
+      </div> */}
       <div
         className="col-span-full flex justify-end gap-3 pt-2
         border-t border-dark3"

@@ -46,7 +46,9 @@ export default function AdminLogin() {
       <div className="w-full max-w-sm">
         {/* Header */}
         <div className="text-center mb-8">
-          <p className="font-display text-2xl text-gold mb-1">PHOTO HOUSE</p>
+          <p className="font-display text-2xl text-yellow-400 mb-1">
+            PHOTO HOUSE
+          </p>
           <p className="font-ui text-text3 text-sm">Admin Control Panel</p>
         </div>
         {/* Card */}
@@ -74,7 +76,7 @@ export default function AdminLogin() {
                 onChange={formik.handleChange}
                 onBlur={formik.handleBlur}
                 className="w-full bg-dark border border-dark3
-                  focus:border-gold text-text text-sm rounded
+                  focus:border-yellow-400 text-text text-sm rounded
                   px-3 py-2.5 outline-none transition-colors"
               />
               {formik.touched.username && formik.errors.username && (
@@ -94,7 +96,7 @@ export default function AdminLogin() {
                 onChange={formik.handleChange}
                 onBlur={formik.handleBlur}
                 className="w-full bg-dark border border-dark3
-                  focus:border-gold text-text text-sm rounded
+                  focus:border-yellow-400 text-text text-sm rounded
                   px-3 py-2.5 outline-none transition-colors"
               />
               {formik.touched.password && formik.errors.password && (

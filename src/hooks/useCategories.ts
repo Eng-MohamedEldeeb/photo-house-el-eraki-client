@@ -1,9 +1,5 @@
 import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
 import { categoriesApi } from "../api/categories.api";
-import type {
-  CreateCategoryDto,
-  UpdateCategoryDto,
-} from "../types/category.types";
 
 export const CATEGORIES_KEY = "categories";
 
@@ -14,7 +10,7 @@ export function useCategories() {
   });
 }
 
-export function useCategory(id: number) {
+export function useCategory(id: string) {
   return useQuery({
     queryKey: [CATEGORIES_KEY, id],
     queryFn: () => categoriesApi.getById(id),
@@ -25,7 +21,7 @@ export function useCategory(id: number) {
 export function useCreateCategory() {
   const qc = useQueryClient();
   return useMutation({
-    mutationFn: (dto: CreateCategoryDto) => categoriesApi.create(dto),
+    mutationFn: (formData: FormData) => categoriesApi.create(formData),
     onSuccess: () => qc.invalidateQueries({ queryKey: [CATEGORIES_KEY] }),
   });
 }
@@ -33,8 +29,8 @@ export function useCreateCategory() {
 export function useUpdateCategory() {
   const qc = useQueryClient();
   return useMutation({
-    mutationFn: ({ id, dto }: { id: number; dto: UpdateCategoryDto }) =>
-      categoriesApi.update(id, dto),
+    mutationFn: ({ id, formData }: { id: string; formData: FormData }) =>
+      categoriesApi.update(id, formData),
     onSuccess: () => qc.invalidateQueries({ queryKey: [CATEGORIES_KEY] }),
   });
 }
@@ -42,7 +38,7 @@ export function useUpdateCategory() {
 export function useDeleteCategory() {
   const qc = useQueryClient();
   return useMutation({
-    mutationFn: (id: number) => categoriesApi.delete(id),
+    mutationFn: (id: string) => categoriesApi.delete(id),
     onSuccess: () => qc.invalidateQueries({ queryKey: [CATEGORIES_KEY] }),
   });
 }

@@ -10,9 +10,7 @@ export default function Store() {
   const [params] = useSearchParams();
   const query = {
     search: params.get("search") || undefined,
-    categoryId: params.get("categoryId")
-      ? Number(params.get("categoryId"))
-      : undefined,
+    categoryId: params.get("categoryId") || undefined,
     stockStatus: params.get("stockStatus") || undefined,
     page: Number(params.get("page") || 1),
     limit: 12,

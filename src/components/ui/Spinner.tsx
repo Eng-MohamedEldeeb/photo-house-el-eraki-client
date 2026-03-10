@@ -1,7 +1,7 @@
 export default function Spinner({ fullScreen }: { fullScreen?: boolean }) {
   const spinner = (
     <div
-      className="w-10 h-10 border-2 border-dark3 border-t-gold
+      className="w-10 h-10 border-2 border-dark3 border-t-yellow-400
       rounded-full animate-spin"
     />
   );

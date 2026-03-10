@@ -1,7 +1,7 @@
 import type { ToastType } from "../../hooks/useToast";
 
 interface Toast {
-  id: number;
+  id: string;
   message: string;
   type: ToastType;
 }
@@ -9,7 +9,7 @@ interface Toast {
 const colors: Record<ToastType, string> = {
   success: "bg-green/10 border-green/40 text-green",
   error: "bg-red/10   border-red/40   text-red",
-  info: "bg-gold/10  border-gold/40  text-gold",
+  info: "bg-yellow-400/10  border-yellow-400/40  text-yellow-400",
 };
 
 export default function ToastContainer({ toasts }: { toasts: Toast[] }) {

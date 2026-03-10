@@ -1,12 +1,12 @@
-import { NavLink, useNavigate } from "react-router-dom";
+import { Link, NavLink, useNavigate } from "react-router-dom";
 import { useAppDispatch } from "../../hooks/useAppDispatch";
 import { useAppSelector } from "../../hooks/useAppSelector";
 import { logout, selectAdmin } from "../../store/slices/authSlice";
 
 const links = [
   { to: "/admin", label: "Dashboard", labelAr: "Dashboard" },
-  { to: "/admin/products", label: "Products", labelAr: "Products" },
   { to: "/admin/categories", label: "Categories", labelAr: "Categories" },
+  { to: "/admin/products", label: "Products", labelAr: "Products" },
 ];
 
 export default function AdminSidebar({ onClose }: { onClose: () => void }) {
@@ -27,7 +27,7 @@ export default function AdminSidebar({ onClose }: { onClose: () => void }) {
         <button
           onClick={onClose}
           className="lg:hidden absolute top-4 right-4 text-text3
-            hover:text-gold text-lg"
+            hover:text-yellow-400 text-lg"
         >
           X
         </button>
@@ -35,9 +35,11 @@ export default function AdminSidebar({ onClose }: { onClose: () => void }) {
 
       {/* Logo */}
       <div className="px-6 py-5 border-b border-dark3">
-        <p className="font-display text-gold text-base tracking-widest">
-          PHOTO HOUSE
-        </p>
+        <Link to={"/"} className="cursor-pointer">
+          <p className="font-display text-yellow-400 text-base tracking-widest">
+            PHOTO HOUSE
+          </p>
+        </Link>
         <p className="font-arabic text-text3 text-xs mt-0.5">Dashboard</p>
       </div>
       {/* Nav links */}
@@ -52,7 +54,7 @@ export default function AdminSidebar({ onClose }: { onClose: () => void }) {
               font-ui text-sm transition-colors
               ${
                 isActive
-                  ? "bg-gold/10 text-gold border-l-2 border-gold"
+                  ? "bg-yellow-400/10 text-yellow-400 border-l-2 border-yellow-400"
                   : "text-text2 hover:bg-dark2 hover:text-text"
               }`
             }

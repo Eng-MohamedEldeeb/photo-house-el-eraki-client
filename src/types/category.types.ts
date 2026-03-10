@@ -1,7 +1,8 @@
 export interface Category {
-  id: number;
+  id: string;
   nameEn: string;
   nameAr: string;
+  imageUrl?: string;
   description?: string;
   createdAt: string;
   updatedAt: string;

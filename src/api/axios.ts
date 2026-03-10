@@ -4,7 +4,7 @@ import { logout } from "../store/slices/authSlice";
 
 const api = axios.create({
   baseURL: import.meta.env.VITE_API_URL || "http://localhost:3000/api",
-  headers: { "Content-Type": "application/json" },
+  // headers: { "Content-Type": "application/json" },
 });
 
 // REQUEST: attach JWT token to every request automatically

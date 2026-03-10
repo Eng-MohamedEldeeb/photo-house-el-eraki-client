@@ -1,7 +1,7 @@
 import { useState, useCallback } from "react";
 export type ToastType = "success" | "error" | "info";
 interface Toast {
-  id: number;
+  id: string;
   message: string;
   type: ToastType;
 }

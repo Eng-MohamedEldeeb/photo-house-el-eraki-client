@@ -11,9 +11,9 @@ const base =
   "inline-flex items-center justify-center font-ui font-semibold tracking-wide transition-all duration-200 rounded-sm disabled:opacity-50 disabled:cursor-not-allowed";
 
 const variants: Record<Variant, string> = {
-  gold: "bg-gold text-dark hover:bg-gold-l active:bg-gold-d",
-  outline: "border border-gold text-gold hover:bg-gold/10",
-  ghost: "text-text2 hover:text-gold hover:bg-dark2",
+  gold: "bg-yellow-400 text-dark hover:bg-yellow-500 active:bg-yellow-600",
+  outline: "border border-yellow-400 text-yellow-400 hover:bg-yellow-400/10",
+  ghost: "text-text2 hover:text-yellow-400 hover:bg-dark2",
   danger: "border border-red text-red hover:bg-red/10",
 };
 const sizes: Record<Size, string> = {

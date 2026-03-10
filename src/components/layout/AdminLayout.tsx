@@ -30,13 +30,15 @@ export default function AdminLayout() {
         >
           <button
             onClick={() => setSidebarOpen(true)}
-            className="text-text2 hover:text-gold"
+            className="text-text2 hover:text-yellow-400"
           >
             <span className="block w-5 h-0.5 bg-current mb-1" />
             <span className="block w-5 h-0.5 bg-current mb-1" />
             <span className="block w-4 h-0.5 bg-current" />
           </button>
-          <span className="font-display text-gold text-sm">PHOTO HOUSE</span>
+          <span className="font-display text-yellow-400 text-sm">
+            PHOTO HOUSE
+          </span>
         </div>
         <Outlet />
       </main>

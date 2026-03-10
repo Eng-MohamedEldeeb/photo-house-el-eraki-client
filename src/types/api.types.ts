@@ -9,7 +9,7 @@ export interface PaginatedResponse<T> {
 }
 export interface ProductQuery {
   search?: string;
-  categoryId?: number;
+  categoryId?: string;
   stockStatus?: string;
   page?: number;
   limit?: number;
@@ -27,5 +27,5 @@ export interface LoginCredentials {
 }
 export interface LoginResponse {
   accessToken: string;
-  admin: { id: number; username: string };
+  admin: { id: string; username: string };
 }

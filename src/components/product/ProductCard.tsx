@@ -7,7 +7,7 @@ export default function ProductCard({ product }: { product: Product }) {
     <Link
       to={`/products/${product.id}`}
       className="group bg-dark2 border border-dark3 rounded
-        hover:border-gold/50 transition-all duration-300 overflow-hidden
+        hover:border-yellow-400/50 transition-all duration-300 overflow-hidden
         flex flex-col"
     >
       {/* Image */}
@@ -32,7 +32,7 @@ export default function ProductCard({ product }: { product: Product }) {
       <div className="p-4 flex flex-col gap-2 flex-1">
         <p
           className="font-ui text-text text-base leading-snug
-          group-hover:text-gold transition-colors"
+          group-hover:text-yellow-400 transition-colors"
         >
           {product.nameAr}
         </p>
@@ -43,7 +43,7 @@ export default function ProductCard({ product }: { product: Product }) {
           className="flex items-center justify-between mt-auto pt-2
           border-t border-dark3"
         >
-          <span className="font-ui font-semibold text-gold text-sm">
+          <span className="font-ui font-semibold text-yellow-400 text-sm">
             {product.price} EGP
           </span>
           <Badge status={product.stockStatus} />

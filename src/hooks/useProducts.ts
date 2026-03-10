@@ -13,7 +13,7 @@ export function useProducts(query?: ProductQuery) {
 }
 
 // Fetch single product by id
-export function useProduct(id: number) {
+export function useProduct(id: string) {
   return useQuery({
     queryKey: [PRODUCTS_KEY, id],
     queryFn: () => productsApi.getById(id),
@@ -41,9 +41,9 @@ export function useStockSummary() {
 export function useDeleteProduct() {
   const qc = useQueryClient();
   return useMutation({
-    mutationFn: (id: number) => productsApi.delete(id),
+    mutationFn: (id: string) => productsApi.delete(id),
     // 1. Snapshot current cache before mutation
-    onMutate: async (id: number) => {
+    onMutate: async (id: string) => {
       await qc.cancelQueries({ queryKey: [PRODUCTS_KEY] });
       const prev = qc.getQueriesData({ queryKey: [PRODUCTS_KEY] });
       // 2. Remove item from every cached list immediately
@@ -82,7 +82,7 @@ export function useCreateProduct() {
 }
 
 // Admin: update product
-export function useUpdateProduct(id: number) {
+export function useUpdateProduct(id: string) {
   const qc = useQueryClient();
   return useMutation({
     mutationFn: (formData: FormData) => productsApi.update(id, formData),

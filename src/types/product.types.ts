@@ -1,6 +1,6 @@
 export type StockStatus = "in_stock" | "low_stock" | "out_of_stock";
 export interface Product {
-  id: number;
+  id: string;
   nameEn: string;
   nameAr: string;
   descriptionEn?: string;
@@ -14,7 +14,7 @@ export interface Product {
   imageUrl?: string;
   isFeatured: boolean;
   isActive: boolean;
-  category?: { id: number; nameEn: string; nameAr: string };
+  category?: { id: string; nameEn: string; nameAr: string };
   categoryId?: number;
   createdAt: string;
   updatedAt: string;
