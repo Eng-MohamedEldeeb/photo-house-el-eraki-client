@@ -1,0 +1,7 @@
+<svg viewBox="0 0 38 38" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <rect x="1" y="1" width="36" height="36" stroke="oklch(85.2% 0.199 91.936)" stroke-width="1"></rect>
+        <rect x="5" y="5" width="28" height="28" stroke="oklch(85.2% 0.199 91.936)" stroke-width="0.5" stroke-dasharray="3 3"></rect>
+        <circle cx="19" cy="19" r="8" stroke="oklch(85.2% 0.199 91.936)" stroke-width="1"></circle>
+        <circle cx="19" cy="19" r="3" fill="oklch(85.2% 0.199 91.936)"></circle>
+        <rect x="14" y="8" width="10" height="4" rx="1" fill="oklch(85.2% 0.199 91.936)" opacity="0.4"></rect>
+      </svg>
