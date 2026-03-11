@@ -30,7 +30,7 @@ export default function AdminProducts() {
       }
       navigate("/admin/products");
     } catch (error) {
-      console.log(error);
+      console.log({ productError: error });
     }
   };
 
@@ -49,6 +49,7 @@ export default function AdminProducts() {
       <div className="bg-dark2 border border-dark3 rounded p-6">
         <ProductForm
           product={isEdit ? (product as Product) : undefined}
+          isEdit={isEdit}
           onSubmit={handleSubmit}
           loading={createMutation.isPending || updateMutation.isPending}
         />
