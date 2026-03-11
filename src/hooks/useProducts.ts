@@ -1,6 +1,7 @@
 import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
 import { productsApi } from "../api/products.api";
 import type { ProductQuery } from "../types/api.types";
+import type { Product } from "../types/product.types";
 
 export const PRODUCTS_KEY = "products";
 // Fetch paginated products list (public)
@@ -18,6 +19,14 @@ export function useProduct(id: string) {
     queryKey: [PRODUCTS_KEY, id],
     queryFn: () => productsApi.getById(id),
     enabled: !!id,
+  });
+}
+
+// Fetch featured products for homepage
+export function useFeaturedProducts() {
+  return useQuery({
+    queryKey: [PRODUCTS_KEY, "featured"],
+    queryFn: () => productsApi.getFeatured(),
   });
 }
 
@@ -47,20 +56,23 @@ export function useDeleteProduct() {
       await qc.cancelQueries({ queryKey: [PRODUCTS_KEY] });
       const prev = qc.getQueriesData({ queryKey: [PRODUCTS_KEY] });
       // 2. Remove item from every cached list immediately
-      qc.setQueriesData({ queryKey: [PRODUCTS_KEY] }, (old: any) => {
-        if (!old?.data) return old;
-        return {
-          ...old,
-          data: old.data.filter((p: any) => p.id !== id),
-          meta: { ...old.meta, total: old.meta.total - 1 },
-        };
-      });
+      qc.setQueriesData(
+        { queryKey: [PRODUCTS_KEY] },
+        (old: { meta: { total: number }; data: Product[] }) => {
+          if (!old?.data) return old;
+          return {
+            ...old,
+            data: old.data.filter((p: Product) => p.id !== id),
+            meta: { ...old.meta, total: old.meta.total - 1 },
+          };
+        },
+      );
       return { prev }; // return snapshot for rollback
     },
     // 3. On error: rollback to snapshot
     onError: (_err, _id, context: any) => {
       if (context?.prev) {
-        context.prev.forEach(([key, data]: any) => {
+        context.prev.forEach(([key, data]: [readonly unknown[], Product]) => {
           qc.setQueryData(key, data);
         });
       }

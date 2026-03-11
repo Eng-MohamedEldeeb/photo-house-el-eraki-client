@@ -16,10 +16,17 @@ export const productsApi = {
       }),
   getById: (id: string) =>
     api
-      .get<Product>(`/products/${id}`)
+      .get<Product>(`/products/single/${id}`)
       .then((r) => r.data)
       .catch((e) => {
         console.error("Get product error:", e.response?.data || e);
+      }),
+  getFeatured: () =>
+    api
+      .get<Product>("/products/featured")
+      .then((r) => r.data)
+      .catch((e) => {
+        console.error("Get featured products error:", e.response?.data || e);
       }),
   // Admin routes
   getAllAdmin: (query?: ProductQuery) =>

@@ -1,8 +1,12 @@
 import { Link } from "react-router-dom";
 // import Button from "../../components/ui/Button";
 import "./style.css";
+import { useFeaturedProducts } from "../../hooks/useProducts";
 
 export function HeroSection() {
+  const { data: product } = useFeaturedProducts();
+  console.log({ product });
+
   return (
     <section className="hero">
       <div className="hero-bg">
@@ -65,6 +69,7 @@ export function HeroSection() {
           <div className="hf-main">
             <div className="hf-inner">
               <div className="hf-icon">📷</div>
+              <img src="" alt="" />
             </div>
             <div className="hf-grad"></div>
             <div className="hf-info">
