@@ -52,8 +52,6 @@ export default function ProductForm({
     },
     validationSchema: schema,
     onSubmit: async (values) => {
-      console.log({ values });
-
       const fd = new FormData();
       Object.entries(values).forEach(([k, v]) => {
         if (v !== "" && v !== null && v !== undefined) fd.append(k, String(v));

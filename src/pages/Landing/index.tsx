@@ -1,5 +1,5 @@
 import { HeroSection } from "./HeroSection";
-import Ticker from "./Ticker";
+import Ticker from "./components/Ticker";
 import CategoriesSection from "./CategoriesSection";
 import { useEffect, useState } from "react";
 import { categoriesApi } from "../../api/categories.api";

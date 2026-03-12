@@ -1,12 +1,9 @@
 import { Link } from "react-router-dom";
-// import Button from "../../components/ui/Button";
-import "./style.css";
 import { useFeaturedProducts } from "../../hooks/useProducts";
+import "./style.css";
 
 export function HeroSection() {
   const { data: product } = useFeaturedProducts();
-  console.log({ product: product?.imageUrl });
-
   return (
     <section className="hero">
       <div className="hero-bg">

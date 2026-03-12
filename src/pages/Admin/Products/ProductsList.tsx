@@ -30,7 +30,6 @@ export default function ProductsList() {
     current: boolean,
   ) => {
     setTogglingId(id);
-    console.log({ id, field, current });
     try {
       await updateStatusMutation.mutateAsync({
         id: togglingId || id,
