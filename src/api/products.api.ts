@@ -1,5 +1,9 @@
 import api from "./axios";
-import type { Product, UpdateStockDto } from "../types/product.types";
+import type {
+  Product,
+  UpdateProductStatusDto,
+  UpdateStockDto,
+} from "../types/product.types";
 
 import type {
   PaginatedResponse,
@@ -67,6 +71,13 @@ export const productsApi = {
       .then((r) => r.data)
       .catch((e) => {
         console.error("Update stock error:", e.response?.data || e);
+      }),
+  updateStatus: (id: string, dto: UpdateProductStatusDto) =>
+    api
+      .patch<Product>(`/admin/products/${id}/status`, dto)
+      .then((r) => r.data)
+      .catch((e) => {
+        console.error("Update status error:", e.response?.data || e);
       }),
   delete: (id: string) =>
     api

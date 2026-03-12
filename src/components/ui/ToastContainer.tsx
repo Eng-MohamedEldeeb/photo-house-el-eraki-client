@@ -1,7 +1,7 @@
 import type { ToastType } from "../../hooks/useToast";
 
 interface Toast {
-  id: string;
+  id: number;
   message: string;
   type: ToastType;
 }

@@ -1,7 +1,7 @@
 import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
 import { productsApi } from "../api/products.api";
 import type { ProductQuery } from "../types/api.types";
-import type { Product } from "../types/product.types";
+import type { Product, UpdateProductStatusDto } from "../types/product.types";
 
 export const PRODUCTS_KEY = "products";
 // Fetch paginated products list (public)
@@ -94,10 +94,26 @@ export function useCreateProduct() {
 }
 
 // Admin: update product
-export function useUpdateProduct(id: string) {
+export function useUpdateProduct() {
   const qc = useQueryClient();
   return useMutation({
-    mutationFn: (formData: FormData) => productsApi.update(id, formData),
-    onSuccess: () => qc.invalidateQueries({ queryKey: [PRODUCTS_KEY] }),
+    mutationFn: ({ id, data }: { id: string; data: FormData }) =>
+      productsApi.update(id, data),
+    onSuccess: (_res, { id }) => {
+      qc.invalidateQueries({ queryKey: [PRODUCTS_KEY] });
+      qc.invalidateQueries({ queryKey: [PRODUCTS_KEY, id] });
+    },
+  });
+}
+
+export function useUpdateProductStatus() {
+  const qc = useQueryClient();
+  return useMutation({
+    mutationFn: ({ id, data }: { id: string; data: UpdateProductStatusDto }) =>
+      productsApi.updateStatus(id, data),
+    onSuccess: (_res, { id }) => {
+      qc.invalidateQueries({ queryKey: [PRODUCTS_KEY] });
+      qc.invalidateQueries({ queryKey: [PRODUCTS_KEY, id] });
+    },
   });
 }

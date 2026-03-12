@@ -40,3 +40,8 @@ export interface UpdateStockDto {
   stockQuantity: number;
   soldQuantity?: number;
 }
+
+export interface UpdateProductStatusDto {
+  isActive?: boolean;
+  isFeatured?: boolean;
+}

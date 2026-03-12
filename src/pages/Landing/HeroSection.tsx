@@ -69,7 +69,7 @@ export function HeroSection() {
           <div className="hf-main">
             <div className="hf-inner">
               <div className="hf-icon">📷</div>
-              <img src="" alt="" />
+              {/* <img src="" alt="" /> */}
             </div>
             <div className="hf-grad"></div>
             <div className="hf-info">
