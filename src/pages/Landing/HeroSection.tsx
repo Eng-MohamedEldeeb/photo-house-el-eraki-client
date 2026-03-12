@@ -5,7 +5,7 @@ import { useFeaturedProducts } from "../../hooks/useProducts";
 
 export function HeroSection() {
   const { data: product } = useFeaturedProducts();
-  console.log({ product });
+  console.log({ product: product?.imageUrl });
 
   return (
     <section className="hero">
@@ -67,9 +67,12 @@ export function HeroSection() {
         <div className="hfw">
           <div className="hf-deco"></div>
           <div className="hf-main">
-            <div className="hf-inner">
-              <div className="hf-icon">📷</div>
-              {/* <img src="" alt="" /> */}
+            <div className="hf-inner object-center object-cover">
+              <img
+                className="w-full h-full object-center object-cover"
+                src={product?.imageUrl}
+                alt={product?.nameEn}
+              />
             </div>
             <div className="hf-grad"></div>
             <div className="hf-info">

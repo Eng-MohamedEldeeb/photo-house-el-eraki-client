@@ -270,6 +270,7 @@ body::after {
   overflow: hidden;
 }
 .hf-inner {
+  width: 100%;
   position: absolute;
   inset: 0;
   display: flex;
