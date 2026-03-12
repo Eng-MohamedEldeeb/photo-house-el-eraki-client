@@ -59,13 +59,13 @@ export default function ProductsList() {
 
   return (
     <>
-      <div className="p-4 sm:p-8">
-        <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between mb-6">
-          <div className="mb-4 sm:mb-0">
-            <h1 className="font-display text-xl sm:text-2xl text-ivory">
+      <div className="p-4 md:p-6 lg:p-8">
+        <div className="flex flex-col md:flex-row md:items-center md:justify-between mb-6">
+          <div className="mb-4 md:mb-0">
+            <h1 className="font-display text-xl md:text-2xl lg:text-3xl text-ivory">
               Products
             </h1>
-            <p className="font-ui text-text3 text-sm mt-1">
+            <p className="font-ui text-text3 text-sm md:text-base mt-1">
               {data?.meta.total ?? 0} products
             </p>
           </div>
@@ -75,7 +75,7 @@ export default function ProductsList() {
         </div>
 
         {/* Mobile Card Layout */}
-        <div className="block sm:hidden space-y-4">
+        <div className="block lg:hidden space-y-4">
           {isLoading ? (
             <div className="bg-dark2 border border-dark3 rounded p-4">
               <div className="animate-pulse">
@@ -102,10 +102,10 @@ export default function ProductsList() {
             data?.data.map((p) => (
               <div
                 key={p.id}
-                className="bg-dark2 border border-dark3 rounded p-4"
+                className="bg-dark2 border border-dark3 rounded p-3 md:p-4"
               >
-                <div className="flex items-start space-x-4 mb-4">
-                  <div className="w-12 h-12 bg-dark3 rounded overflow-hidden shrink-0">
+                <div className="flex items-start space-x-3 md:space-x-4 mb-3 md:mb-4">
+                  <div className="w-10 h-10 md:w-12 md:h-12 bg-dark3 rounded overflow-hidden shrink-0">
                     {p.imageUrl ? (
                       <img
                         src={p.imageUrl}
@@ -117,35 +117,39 @@ export default function ProductsList() {
                     )}
                   </div>
                   <div className="flex-1 min-w-0">
-                    <p className="font-ui text-text text-base font-medium truncate">
+                    <p className="font-ui text-text text-sm md:text-base font-medium truncate">
                       {p.nameEn}
                     </p>
-                    <p className="font-ui text-text3 text-sm truncate">
+                    <p className="font-ui text-text3 text-xs md:text-sm truncate">
                       {p.nameAr}
                     </p>
-                    <p className="font-ui text-gold text-sm mt-1">
+                    <p className="font-ui text-gold text-sm md:text-base mt-1">
                       {p.price} EGP
                     </p>
                   </div>
                 </div>
 
-                <div className="grid grid-cols-2 gap-4 mb-4 text-sm">
+                <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 md:gap-4 mb-3 md:mb-4 text-sm">
                   <div>
                     <p className="font-ui text-text3 text-xs">Category</p>
-                    <p className="font-ui text-text">{p.category?.nameEn}</p>
+                    <p className="font-ui text-text text-sm">
+                      {p.category?.nameEn}
+                    </p>
                     <p className="font-ui text-text3 text-xs">
                       {p.category?.nameAr}
                     </p>
                   </div>
                   <div>
                     <p className="font-ui text-text3 text-xs">Stock</p>
-                    <p className="font-ui text-text2">{p.stockQuantity}</p>
+                    <p className="font-ui text-text2 text-sm">
+                      {p.stockQuantity}
+                    </p>
                     <Badge status={p.stockStatus} />
                   </div>
                 </div>
 
-                <div className="flex items-center justify-between">
-                  <div className="flex items-center space-x-4">
+                <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between space-y-3 sm:space-y-0">
+                  <div className="flex items-center justify-center sm:justify-start space-x-4 md:space-x-6">
                     <div className="flex flex-col items-center">
                       <span className="font-ui text-text3 text-xs mb-1">
                         Active
@@ -154,13 +158,15 @@ export default function ProductsList() {
                         onClick={() =>
                           handleToggle(p.id, "isActive", p.isActive)
                         }
-                        className={`cursor-pointer relative inline-flex w-8 h-4 rounded-full transition-colors duration-200 focus:outline-none disabled:opacity-40 ${
+                        className={`cursor-pointer relative inline-flex w-7 h-3.5 md:w-8 md:h-4 rounded-full transition-colors duration-200 focus:outline-none disabled:opacity-40 ${
                           p.isActive ? "bg-gold" : "bg-dark3"
                         }`}
                       >
                         <span
-                          className={`absolute top-0.5 left-0.5 w-3 h-3 bg-white rounded-full shadow transition-transform duration-200 ${
-                            p.isActive ? "translate-x-4" : "translate-x-0"
+                          className={`absolute top-0.5 left-0.5 w-2.5 h-2.5 md:w-3 md:h-3 bg-white rounded-full shadow transition-transform duration-200 ${
+                            p.isActive
+                              ? "translate-x-3 md:translate-x-4"
+                              : "translate-x-0"
                           }`}
                         />
                       </button>
@@ -173,31 +179,38 @@ export default function ProductsList() {
                         onClick={() =>
                           handleToggle(p.id, "isFeatured", p.isFeatured)
                         }
-                        className={`cursor-pointer relative inline-flex w-8 h-4 rounded-full transition-colors duration-200 focus:outline-none disabled:opacity-40 ${
+                        className={`cursor-pointer relative inline-flex w-7 h-3.5 md:w-8 md:h-4 rounded-full transition-colors duration-200 focus:outline-none disabled:opacity-40 ${
                           p.isFeatured ? "bg-gold" : "bg-dark3"
                         }`}
                       >
                         <span
-                          className={`absolute top-0.5 left-0.5 w-3 h-3 bg-white rounded-full shadow transition-transform duration-200 ${
-                            p.isFeatured ? "translate-x-4" : "translate-x-0"
+                          className={`absolute top-0.5 left-0.5 w-2.5 h-2.5 md:w-3 md:h-3 bg-white rounded-full shadow transition-transform duration-200 ${
+                            p.isFeatured
+                              ? "translate-x-3 md:translate-x-4"
+                              : "translate-x-0"
                           }`}
                         />
                       </button>
                     </div>
                   </div>
-                  <div className="flex space-x-2">
-                    <Link to={`/admin/products/${p.id}/edit`}>
-                      <Button variant="outline" size="sm">
-                        Edit
+                  <div className="flex flex-col sm:flex-row items-center justify-center sm:justify-end space-y-2 sm:space-y-0 sm:space-x-2">
+                    <p className="font-ui text-gold text-xs md:text-sm">
+                      {p.viewCount} Views
+                    </p>
+                    <div className="flex space-x-2">
+                      <Link to={`/admin/products/${p.id}/edit`}>
+                        <Button variant="outline" size="sm">
+                          Edit
+                        </Button>
+                      </Link>
+                      <Button
+                        variant="danger"
+                        size="sm"
+                        onClick={() => setDeleteId(p.id)}
+                      >
+                        Delete
                       </Button>
-                    </Link>
-                    <Button
-                      variant="danger"
-                      size="sm"
-                      onClick={() => setDeleteId(p.id)}
-                    >
-                      Delete
-                    </Button>
+                    </div>
                   </div>
                 </div>
               </div>
@@ -219,6 +232,7 @@ export default function ProductsList() {
                   "Status",
                   "Active",
                   "Featured",
+                  "Views",
                   "Actions",
                 ].map((h) => (
                   <th
@@ -240,8 +254,8 @@ export default function ProductsList() {
                     className={i % 2 === 0 ? "bg-dark2" : "bg-dark"}
                   >
                     {/* Image */}
-                    <td className="px-4 py-3">
-                      <div className="w-10 h-10 bg-dark3 rounded overflow-hidden">
+                    <td className="px-3 md:px-4 py-3">
+                      <div className="w-8 h-8 md:w-10 md:h-10 bg-dark3 rounded overflow-hidden">
                         {p.imageUrl ? (
                           <img
                             src={p.imageUrl}
@@ -255,12 +269,12 @@ export default function ProductsList() {
                     </td>
 
                     {/* Name */}
-                    <td className="px-4 py-3">
+                    <td className="px-3 md:px-4 py-3">
                       <p className="font-ui text-text text-sm">{p.nameEn}</p>
                       <p className="font-ui text-text3 text-xs">{p.nameAr}</p>
                     </td>
                     {/* Category */}
-                    <td className="px-4 py-3">
+                    <td className="px-3 md:px-4 py-3">
                       <p className="font-ui text-text text-sm">
                         {p.category?.nameEn}
                       </p>
@@ -269,28 +283,28 @@ export default function ProductsList() {
                       </p>
                     </td>
 
-                    <td className="px-4 py-3 font-ui text-gold">
+                    <td className="px-3 md:px-4 py-3 font-ui text-gold text-sm">
                       {p.price} EGP
                     </td>
-                    <td className="px-4 py-3 font-ui text-text2">
+                    <td className="px-3 md:px-4 py-3 font-ui text-text2 text-sm">
                       {p.stockQuantity}
                     </td>
-                    <td className="px-4 py-3">
+                    <td className="px-3 md:px-4 py-3">
                       <Badge status={p.stockStatus} />
                     </td>
 
                     {/* Active toggle */}
-                    <td className="px-4 py-3">
+                    <td className="px-3 md:px-4 py-3">
                       <button
                         onClick={() =>
                           handleToggle(p.id, "isActive", p.isActive)
                         }
-                        className={`cursor-pointer relative inline-flex w-9 h-5 rounded-full transition-colors
+                        className={`cursor-pointer relative inline-flex w-8 h-4 md:w-9 md:h-5 rounded-full transition-colors
         duration-200 focus:outline-none disabled:opacity-40
         ${p.isActive ? "bg-gold" : "bg-dark3"}`}
                       >
                         <span
-                          className={`absolute top-0.5 left-0.5 w-4 h-4 bg-white rounded-full
+                          className={`absolute top-0.5 left-0.5 w-3 h-3 md:w-4 md:h-4 bg-white rounded-full
           shadow transition-transform duration-200
           ${p.isActive ? "translate-x-4" : "translate-x-0"}`}
                         />
@@ -298,25 +312,30 @@ export default function ProductsList() {
                     </td>
 
                     {/* Featured toggle */}
-                    <td className="px-4 py-3">
+                    <td className="px-3 md:px-4 py-3">
                       <button
                         onClick={() =>
                           handleToggle(p.id, "isFeatured", p.isFeatured)
                         }
-                        className={`cursor-pointer relative inline-flex w-9 h-5 rounded-full transition-colors
+                        className={`cursor-pointer relative inline-flex w-8 h-4 md:w-9 md:h-5 rounded-full transition-colors
         duration-200 focus:outline-none disabled:opacity-40
         ${p.isFeatured ? "bg-gold" : "bg-dark3"}`}
                       >
                         <span
-                          className={`absolute top-0.5 left-0.5 w-4 h-4 bg-white rounded-full
+                          className={`absolute top-0.5 left-0.5 w-3 h-3 md:w-4 md:h-4 bg-white rounded-full
           shadow transition-transform duration-200
           ${p.isFeatured ? "translate-x-4" : "translate-x-0"}`}
                         />
                       </button>
                     </td>
 
+                    {/* Views */}
+                    <td className="px-3 md:px-4 py-3">
+                      <p className="font-ui text-gold text-sm">{p.viewCount}</p>
+                    </td>
+
                     {/* Actions */}
-                    <td className="px-4 py-3">
+                    <td className="px-3 md:px-4 py-3">
                       <div className="flex items-center gap-2">
                         <Link to={`/admin/products/${p.id}/edit`}>
                           <Button variant="outline" size="sm">

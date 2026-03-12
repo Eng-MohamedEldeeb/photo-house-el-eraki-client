@@ -16,6 +16,7 @@ export interface Product {
   isActive: boolean;
   category?: { id: string; nameEn: string; nameAr: string };
   categoryId?: number;
+  viewCount?: number;
   createdAt: string;
   updatedAt: string;
 }
@@ -28,7 +29,6 @@ export interface CreateProductDto {
   sku?: string;
   stockQuantity?: number;
   lowStockThreshold?: number;
-  viewCount?: number;
   categoryId?: number;
   isFeatured?: boolean;
 }
