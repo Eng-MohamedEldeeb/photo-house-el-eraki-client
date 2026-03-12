@@ -104,7 +104,7 @@ export default function ProductsList() {
                 className="bg-dark2 border border-dark3 rounded p-4"
               >
                 <div className="flex items-start space-x-4 mb-4">
-                  <div className="w-12 h-12 bg-dark3 rounded overflow-hidden flex-shrink-0">
+                  <div className="w-12 h-12 bg-dark3 rounded overflow-hidden shrink-0">
                     {p.imageUrl ? (
                       <img
                         src={p.imageUrl}
