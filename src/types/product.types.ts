@@ -28,6 +28,7 @@ export interface CreateProductDto {
   sku?: string;
   stockQuantity?: number;
   lowStockThreshold?: number;
+  viewCount?: number;
   categoryId?: number;
   isFeatured?: boolean;
 }

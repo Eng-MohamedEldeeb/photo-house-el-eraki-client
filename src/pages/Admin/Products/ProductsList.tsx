@@ -17,6 +17,8 @@ export default function ProductsList() {
   const { toasts, show } = useToast();
   const { data, isLoading } = useAdminProducts();
 
+  console.log({ data });
+
   const [deleteId, setDeleteId] = useState<string | null>(null);
   const [togglingId, setTogglingId] = useState<string | null>(null);
 

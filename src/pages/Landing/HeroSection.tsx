@@ -60,33 +60,35 @@ export function HeroSection() {
         </div>
       </div>
 
-      <div className="hero-right">
-        <div className="hfw">
-          <div className="hf-deco"></div>
-          <div className="hf-main">
-            <div className="hf-inner object-center object-cover">
-              <img
-                className="w-full h-full object-center object-cover"
-                src={product?.imageUrl}
-                alt={product?.nameEn}
-              />
-            </div>
-            <div className="hf-grad"></div>
-            <div className="hf-info">
-              <div className="hf-tag">Featured Product</div>
-              <div className="hf-title">Premium Portrait Print A3</div>
-              <div className="hf-price">
-                <span>EGP</span>350
+      {Boolean(product) && (
+        <div className="hero-right">
+          <div className="hfw">
+            <div className="hf-deco"></div>
+            <div className="hf-main">
+              <div className="hf-inner object-center object-cover">
+                <img
+                  className="w-full h-full object-center object-cover"
+                  src={product?.imageUrl}
+                  alt={product?.nameEn}
+                />
+              </div>
+              <div className="hf-grad"></div>
+              <div className="hf-info">
+                <div className="hf-tag">Featured Product</div>
+                <div className="hf-title">Premium Portrait Print A3</div>
+                <div className="hf-price">
+                  <span>EGP</span>350
+                </div>
               </div>
             </div>
-          </div>
-          <div className="hf-float">
-            <div className="hff-l">In Stock</div>
-            <div className="hff-v">✓ 48</div>
-            <div className="hff-ar">Available</div>
+            <div className="hf-float">
+              <div className="hff-l">In Stock</div>
+              <div className="hff-v">✓ 48</div>
+              <div className="hff-ar">Available</div>
+            </div>
           </div>
         </div>
-      </div>
+      )}
     </section>
   );
 }
