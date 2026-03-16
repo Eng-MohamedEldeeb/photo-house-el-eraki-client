@@ -1,8 +1,9 @@
 import { Link } from "react-router-dom";
-import { useState } from "react";
+import { useRef, useState } from "react";
 import {
   useAdminProducts,
   useDeleteProduct,
+  // useUpdateProduct,
   useUpdateProductStatus,
 } from "../../../hooks/useProducts";
 import Badge from "../../../components/ui/Badge";
@@ -12,6 +13,9 @@ import ConfirmModal from "../../../components/ui/ConfirmModal";
 import ToastContainer from "../../../components/ui/ToastContainer";
 import { useToast } from "../../../hooks/useToast";
 import TableRowSkeleton from "../../../components/ui/TableRowSkeleton";
+import type { ImportResultDto } from "../../../types/product.types";
+import { importExportApi } from "../../../api/importExport.api";
+import ImportResultModal from "./components/ImportResultModal";
 
 export default function ProductsList() {
   const { toasts, show } = useToast();
@@ -23,7 +27,15 @@ export default function ProductsList() {
   const [togglingId, setTogglingId] = useState<string | null>(null);
 
   const deleteMutation = useDeleteProduct();
+  // const updateMutation = useUpdateProduct();
   const updateStatusMutation = useUpdateProductStatus();
+
+  const fileRef = useRef<HTMLInputElement>(null);
+  const [exporting, setExporting] = useState(false);
+  const [importing, setImporting] = useState(false);
+  const [importResult, setImportResult] = useState<ImportResultDto | null>(
+    null,
+  );
 
   // Patch a single boolean field without opening the form
   const handleToggle = async (
@@ -55,6 +67,31 @@ export default function ProductsList() {
     setDeleteId(null);
   };
 
+  const handleImportFile = async (e: React.ChangeEvent<HTMLInputElement>) => {
+    const file = e.target.files?.[0];
+    if (!file) return;
+    e.target.value = "";
+    setImporting(true);
+    try {
+      const result = await importExportApi.importProducts(file);
+      setImportResult(result);
+    } catch {
+      show("Import failed", "error");
+    }
+    setImporting(false);
+  };
+
+  const handleExport = async () => {
+    setExporting(true);
+    try {
+      await importExportApi.exportProducts();
+      show("Export downloaded", "success");
+    } catch {
+      show("Export failed", "error");
+    }
+    setExporting(false);
+  };
+
   if (isLoading) return <Spinner />;
 
   return (
@@ -72,6 +109,43 @@ export default function ProductsList() {
           <Link to="/admin/products/new">
             <Button size="sm">+ Add Product</Button>
           </Link>
+        </div>
+
+        <div className="flex items-center justify-between mb-6">
+          <div>
+            <h1 className="font-display text-2xl text-ivory">Products</h1>
+            <p className="font-ui text-text3 text-sm mt-1">
+              {data?.meta.total ?? 0} products
+            </p>
+          </div>
+          <div className="flex items-center gap-2">
+            <Button
+              variant="outline"
+              size="sm"
+              loading={exporting}
+              onClick={handleExport}
+            >
+              ↓ Export
+            </Button>
+            <input
+              ref={fileRef}
+              type="file"
+              accept=".xlsx,.xls"
+              className="hidden"
+              onChange={handleImportFile}
+            />
+            <Button
+              variant="outline"
+              size="sm"
+              loading={importing}
+              onClick={() => fileRef.current?.click()}
+            >
+              ↑ Import
+            </Button>
+            <Link to="/admin/products/new">
+              <Button size="sm">+ Add Product</Button>
+            </Link>
+          </div>
         </div>
 
         {/* Mobile Card Layout */}
@@ -366,6 +440,12 @@ export default function ProductsList() {
           title="Delete Product"
           message="Are you sure? The image will also be removed from Cloudinary."
         />
+        {importResult && (
+          <ImportResultModal
+            result={importResult}
+            onClose={() => setImportResult(null)}
+          />
+        )}
       </div>
       <ToastContainer toasts={toasts} />
     </>
